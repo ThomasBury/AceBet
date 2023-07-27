@@ -96,6 +96,6 @@ def train_model(start_date, end_date):
     dump(model, filename)
 
 if __name__ == "__main__":
-    start_date = "2016-03-04"
-    end_date = "2018-03-04"
+    start_date = "2015-03-04"
+    end_date = "2017-03-04"
     train_model(start_date, end_date)
