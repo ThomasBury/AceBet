@@ -1,3 +1,4 @@
+import os
 import pandas as pd
 
 def prepare_data():
@@ -10,8 +11,8 @@ def prepare_data():
         The prepared data.
 
     """
-
-    data = pd.read_csv("../data/atp_data.csv", low_memory=False)
+    data_path = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), 'data', "atp_data.csv")
+    data = pd.read_csv(data_path, low_memory=False)
     data['Date'] = pd.to_datetime(data['Date'])
     data.sort_values('Date', inplace=True)
 
@@ -50,7 +51,11 @@ def prepare_data():
 
     df['best_ranked'] = 'p1'
     df.loc[df['rank_diff'] > 0, 'best_ranked'] = 'p2'
+    df = df.reset_index(drop=True) 
 
     # write the "production" data
-    df.to_feather("../data/atp_data_production.csv", low_memory=False)
-
+    data_path = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), 'data', "atp_data_production.feather")
+    df.to_feather(data_path)
+    
+if __name__ == "__main__":
+    prepare_data()
