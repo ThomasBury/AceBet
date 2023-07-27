@@ -1,5 +1,6 @@
 import os
 import pandas as pd
+from pathlib import Path
 
 def prepare_data():
     """
@@ -11,8 +12,10 @@ def prepare_data():
         The prepared data.
 
     """
-    data_path = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), 'data', "atp_data.csv")
+    data_path = Path(__file__).resolve().parents[2] / 'data' / 'atp_data.csv'
     data = pd.read_csv(data_path, low_memory=False)
+
+    # Data cleaning and feature renaming
     data['Date'] = pd.to_datetime(data['Date'])
     data.sort_values('Date', inplace=True)
 
@@ -30,32 +33,29 @@ def prepare_data():
     df.columns = df.columns.str.lower()
     df.rename(columns=lambda x: x.replace('winner', 'p1').replace('loser', 'p2'), inplace=True)
 
+    # Swap player columns and adjust the target column
     p1_columns = df.filter(like='p1').columns
     p2_columns = df.filter(like='p2').columns
-
     mask = df.index % 2 == 1
     df.loc[mask, p1_columns], df.loc[mask, p2_columns] = df.loc[mask, p2_columns].values, df.loc[mask, p1_columns].values
     df.loc[mask, "proba_elo"] = 1 - df.loc[mask, "proba_elo"].values
-
     df['target'] = ~mask
-    # some naive feature engineering
-    # Extract year, month, and day into separate columns
+
+    # Naive feature engineering
     df['year'] = df['date'].dt.year
     df['month'] = df['date'].dt.month
     df['day'] = df['date'].dt.day
     df['rank_diff'] = df['rank_p1'] - df['rank_p2']
-
     # this column is forbidden, 
     # to illustrate data leakage leading to 98% accuracy
     #df["p1_won_more_sets"] = 1*(df['sets_p1'] > df['sets_p2'])
-
     df['best_ranked'] = 'p1'
     df.loc[df['rank_diff'] > 0, 'best_ranked'] = 'p2'
-    df = df.reset_index(drop=True) 
+    df = df.reset_index(drop=True)
 
-    # write the "production" data
-    data_path = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), 'data', "atp_data_production.feather")
-    df.to_feather(data_path)
-    
+    # Write the "production" data to a feather file
+    production_data_path = Path(__file__).resolve().parents[2] / 'data' / 'atp_data_production.feather'
+    df.to_feather(production_data_path)
+
 if __name__ == "__main__":
     prepare_data()
