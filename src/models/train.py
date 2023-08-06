@@ -85,9 +85,23 @@ def train_model(start_date, end_date):
     train_idx, _ = time_series_split(X, y, n_splits=2)
     X_train, y_train = X.iloc[train_idx, :].copy(), y[train_idx].copy()
     
+    lgb_params = {'objective': 'binary',
+                  'metric': 'binary_logloss',
+                  'verbosity': -1, 
+                  'boosting_type': 'gbdt',
+                  'feature_pre_filter': False,
+                  'reg_alpha': 0.0,
+                  'reg_lambda': 0.0,
+                  'num_leaves': 4,
+                  'colsample_bytree': 0.8,
+                  'subsample': 0.6186492915793452,
+                  'subsample_freq': 5,
+                  'min_child_samples': 20,
+                  'n_estimators': 45,}
+    
     model = Pipeline([
         ("encoder", OrdinalEncoderPandas()),
-        ("gbm", LGBMClassifier(n_estimators=20))])
+        ("gbm", LGBMClassifier(**lgb_params))])
 
     model.fit(X_train, y_train)
     today = datetime.today()
