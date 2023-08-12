@@ -109,7 +109,7 @@ def train_model(start_date, end_date):
     filename = f"./model_{today.strftime('%Y-%m-%d-%H-%M')}.joblib"
     dump(model, filename)
 
-if __name__ == "__main__":
-    start_date = "2015-03-04"
-    end_date = "2017-03-04"
-    train_model(start_date, end_date)
+# if __name__ == "__main__":
+#     start_date = "2015-03-04"
+#     end_date = "2017-03-04"
+#     train_model(start_date, end_date)

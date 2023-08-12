@@ -56,5 +56,5 @@ def prepare_data():
     production_data_path = Path(__file__).resolve().parents[2] / 'data' / 'atp_data_production.feather'
     df.to_feather(production_data_path)
 
-if __name__ == "__main__":
-    prepare_data()
+# if __name__ == "__main__":
+#     prepare_data()
