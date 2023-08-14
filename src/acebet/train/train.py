@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 from pathlib import Path
 from lightgbm import LGBMClassifier
 from sklearn.pipeline import Pipeline
@@ -25,7 +26,7 @@ def prepare_data_for_training_clf(start_date, end_date):
         The prepared data.
 
     """
-    data_path = Path(__file__).resolve().parents[2] / 'data' / 'atp_data_production.feather'
+    data_path = Path(__file__).resolve().parents[3] / 'data' / 'atp_data_production.feather'
     df = pd.read_feather(data_path)
     df['date'] = pd.to_datetime(df['date'])
     df = df.query('date >= @start_date and date <= @end_date')
@@ -94,23 +95,23 @@ def train_model(start_date, end_date):
                   'reg_alpha': 0.0,
                   'reg_lambda': 0.0,
                   'num_leaves': 4,
-                  'colsample_bytree': 0.8,
-                  'subsample': 0.6186492915793452,
-                  'subsample_freq': 5,
+                  'colsample_bytree': 0.4,
+                  'subsample': 0.7957346694832138,
+                  'subsample_freq': 4,
                   'min_child_samples': 20,
                   'n_estimators': 45,}
     
     model = Pipeline([
-        ("encoder", OrdinalEncoder().set_output(transform="pandas")),
+        ("encoder", OrdinalEncoder(handle_unknown="use_encoded_value", unknown_value=np.nan).set_output(transform="pandas")),
         ("gbm", LGBMClassifier(**lgb_params))])
 
     model.fit(X_train, y_train)
     today = datetime.today()
-    model_path = Path(__file__).resolve().parents[2] / "trained_models" / "model_{today.strftime('%Y-%m-%d-%H-%M')}.joblib"
+    model_path = Path(__file__).resolve().parents[3] / "trained_models" / "model_{today.strftime('%Y-%m-%d-%H-%M')}.joblib"
     filename = f"./model_{today.strftime('%Y-%m-%d-%H-%M')}.joblib"
     dump(model, filename)
 
-# if __name__ == "__main__":
-#     start_date = "2015-03-04"
-#     end_date = "2017-03-04"
-#     train_model(start_date, end_date)
+if __name__ == "__main__":
+    start_date = "2015-03-04"
+    end_date = "2017-03-04"
+    train_model(start_date, end_date)

@@ -115,6 +115,7 @@ def load_model(model_path):
     # Get a list of model files, identify the most recent one, and load the model.
     model_files = [file for file in Path(model_path).glob("model_*.joblib")]
     most_recent_model_file = max(model_files, key=lambda file: file.stat().st_mtime)
+    print(f"Loading: {most_recent_model_file}")
     return load(most_recent_model_file)
 
 def make_prediction(data_file, model_path, p1_name, p2_name, date):
@@ -153,13 +154,19 @@ def make_prediction(data_file, model_path, p1_name, p2_name, date):
     except Exception as e:
         # Print an error message and return None for prediction in case of exceptions.
         print(f"Error occurred: {e}")
-        return None, None
+        return None, None, None
 
 
 
-# if __name__ == "__main__":
-#     # Specify the correct paths to the data file and model directory
-#     data_file = Path(__file__).resolve().parents[2] / 'data' / 'atp_data_production.feather'
-#     model_path = Path(__file__).resolve().parents[2] 
-#     prob, class_, player_1 = make_prediction(data_file=data_file, model_path=model_path, p2_name="Fognini F.", p1_name="Jarry N.", date="2018-03-04")
-#     print(f"Winning probability of {player_1} is {100*prob[0]:.1f} %")
+if __name__ == "__main__":
+    # Specify the correct paths to the data file and model directory
+    data_file = Path(__file__).resolve().parents[3] / 'data' / 'atp_data_production.feather'
+    model_path = Path(__file__).resolve().parents[3] 
+    print(model_path)
+    prob, class_, player_1 = make_prediction(data_file=data_file, model_path=model_path, p2_name="Fognini F.", p1_name="Jarry N.", date="2018-03-04")
+    print(f"Winning probability of {player_1} is {100*prob[0]:.1f} %")
+# {
+#   "p1_name": "Jarry N.",
+#   "p2_name": "Fognini F.",
+#   "date": "2018-03-04"
+# }
