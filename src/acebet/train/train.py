@@ -3,9 +3,10 @@ from pathlib import Path
 from lightgbm import LGBMClassifier
 from sklearn.pipeline import Pipeline
 from sklearn.model_selection import TimeSeriesSplit
+from sklearn.preprocessing import OrdinalEncoder
 from joblib import dump
 from datetime import datetime
-from arfs.preprocessing import OrdinalEncoderPandas
+
 
 def prepare_data_for_training_clf(start_date, end_date):
     """
@@ -100,7 +101,7 @@ def train_model(start_date, end_date):
                   'n_estimators': 45,}
     
     model = Pipeline([
-        ("encoder", OrdinalEncoderPandas()),
+        ("encoder", OrdinalEncoder().set_output(transform="pandas")),
         ("gbm", LGBMClassifier(**lgb_params))])
 
     model.fit(X_train, y_train)

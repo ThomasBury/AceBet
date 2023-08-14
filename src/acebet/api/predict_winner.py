@@ -20,12 +20,15 @@ def load_data(data_file):
     """
 
     try:
+        # Read data from a feather file and convert the 'date' column to datetime format.
         df = pd.read_feather(data_file)
         df['date'] = pd.to_datetime(df['date'])
         return df
     except FileNotFoundError:
+        # Raise an error if the specified data file is not found.
         raise FileNotFoundError(f"Data file '{data_file}' not found. Please check the file path.")
     except Exception as e:
+        # Raise an error for any other loading-related exceptions.
         raise ValueError(f"Error occurred while loading data: {e}")
 
 def query_data(df, p1_name, p2_name, date):
@@ -51,14 +54,16 @@ def query_data(df, p1_name, p2_name, date):
     """
 
     try:
+        # Query the DataFrame based on player names and date, handling both player order possibilities.
         query = f'(p1 == "{p1_name}" and p2 == "{p2_name}" and date == "{date}")' \
                 f' or (p1 == "{p2_name}" and p2 == "{p1_name}" and date == "{date}")'
         return df.query(query)
     except KeyError:
+        # Raise an error if the required columns are not present in the DataFrame.
         raise KeyError("Invalid column names in the data.")
     except Exception as e:
+        # Raise an error for any other query-related exceptions.
         raise ValueError(f"Error occurred while querying data: {e}")
-
 
 def predict(model, df):
     """
@@ -79,14 +84,16 @@ def predict(model, df):
         The class of the prediction (0 or 1).
 
     """
-    # Create predictors list
+    # Create a list of predictors by excluding non-predictive columns.
     predictors = df.columns.drop(['target', 'date', 'sets_p1', 'sets_p2', 'b365_p1', 'b365_p2', 'ps_p1', 'ps_p2'])
     X = df[predictors].copy()
     try:
+        # Use the trained model to predict the probability and class.
         prob = model.predict_proba(X)[:, 1]
         class_ = model.predict(X)
         return prob, class_, X["p1"].values[0]
     except Exception as e:
+        # Raise an error if any prediction-related exceptions occur.
         raise ValueError(f"Error occurred during prediction: {e}")
     
 def load_model(model_path):
@@ -105,6 +112,7 @@ def load_model(model_path):
 
     """
 
+    # Get a list of model files, identify the most recent one, and load the model.
     model_files = [file for file in Path(model_path).glob("model_*.joblib")]
     most_recent_model_file = max(model_files, key=lambda file: file.stat().st_mtime)
     return load(most_recent_model_file)
@@ -136,14 +144,17 @@ def make_prediction(data_file, model_path, p1_name, p2_name, date):
     """
 
     try:
+        # Load the data, model, query data by player name and date, and make predictions.
         df = load_data(data_file)
         model = load_model(model_path)
         df_filtered = query_data(df, p1_name, p2_name, date)
         prob, class_, player_1 = predict(model, df_filtered)
         return prob, class_, player_1
     except Exception as e:
+        # Print an error message and return None for prediction in case of exceptions.
         print(f"Error occurred: {e}")
         return None, None
+
 
 
 # if __name__ == "__main__":

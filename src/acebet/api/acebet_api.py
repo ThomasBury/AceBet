@@ -11,7 +11,7 @@ from passlib.context import CryptContext  # For password hashing
 from pydantic import BaseModel  # For fancy data validation
 
 # Importing the super cool prediction function
-from predict_winner import make_prediction
+from .predict_winner import make_prediction
 
 # Let's have some secret sauce for encryption (shhh, it's a secret)
 SECRET_KEY = "09d25e094faa6ca2556c818166b7a9563b93f7099f6f0f4caa6cf63b88e8d3e7"
@@ -184,8 +184,8 @@ async def predict_match_outcome(request: PredictionRequest):
     date = request.date
 
     # The data and model paths are crucial for predictions
-    data_file = Path(__file__).resolve().parents[2] / 'data' / 'atp_data_production.feather'
-    model_path = Path(__file__).resolve().parents[2] 
+    data_file = Path(__file__).resolve().parents[3] / 'data' / 'atp_data_production.feather'
+    model_path = Path(__file__).resolve().parents[3] 
 
     # Let's gaze into the future (predict using the make_prediction function)
     prob, class_, player_1 = make_prediction(data_file=data_file,
