@@ -1,8 +1,8 @@
 # 🎾🔮 AceBet: Tennis Match Predictor (Mock-up)
 
-**Please note:** This document describes a mock-up version of AceBet. While it showcases the concept and functionality, it is not intended for production use. 
+**Please note:** This document describes a mock-up version of AceBet. While it showcases the concept and functionality, it is not intended for production use.
 
-Welcome to AceBet, your playful playground for peeking into the future of tennis matches! 
+Welcome to AceBet, your playful playground for peeking into the future of tennis matches!
 
 ![Tennis Match](tennis-unsplash.jpg)
 
@@ -134,7 +134,7 @@ Sports_betting/
      - tests/: Test files, such as unit tests for the API endpoints or model evaluation.
      - main.py: The main entry point of your application.
  * data/: Dataset and any other relevant data files required for training and testing your models. To be excluded from versioning (gitignore).
- * docker/: Docker-related files. 
+ * docker/: Docker-related files.
      - Dockerfile: The Dockerfile specifies the environment and dependencies required to run the application. It defines the steps to build a Docker image.
      - docker-compose.yml: If we have multiple containers or services to run (e.g., the API, database), docker-compose.yml file to define and manage the composition of these services.
  * requirements.txt: Python dependencies required for your project, to install the necessary packages using pip. It could be a conda yaml.
