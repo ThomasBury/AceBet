@@ -1,8 +1,6 @@
 import unittest
 from fastapi.testclient import TestClient
 
-import sys
-import os
 
 # # Get the current directory of the script
 # script_dir = os.path.dirname(os.path.abspath(__file__))

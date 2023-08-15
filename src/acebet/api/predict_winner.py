@@ -1,5 +1,4 @@
 import pandas as pd
-import sklearn
 from pathlib import Path
 from joblib import load
 

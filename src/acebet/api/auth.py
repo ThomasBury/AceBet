@@ -1,5 +1,4 @@
-from fastapi import HTTPException, Security
-from fastapi.security import OAuth2PasswordBearer
+from fastapi import HTTPException
 from jose import jwt, JWTError
 from passlib.context import CryptContext
 from datetime import datetime, timedelta

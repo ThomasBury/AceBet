@@ -123,11 +123,6 @@ def train_model(start_date, end_date):
 
     model.fit(X_train, y_train)
     today = datetime.today()
-    model_path = (
-        Path(__file__).resolve().parents[3]
-        / "trained_models"
-        / "model_{today.strftime('%Y-%m-%d-%H-%M')}.joblib"
-    )
     filename = f"./model_{today.strftime('%Y-%m-%d-%H-%M')}.joblib"
     dump(model, filename)
 
