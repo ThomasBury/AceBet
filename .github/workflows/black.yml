@@ -1,26 +1,10 @@
-# GitHub Action that uses Black to reformat the Python code in an incoming push request.
-name: lint
+name: Lint
 
 on: [push, pull_request]
 
 jobs:
-  build:
+  lint:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-        with: 
-            ref: $
-      - name: Set up Python 3.10
-        uses: actions/setup-python@v4
-        with:
-          python-version: 3.10
-          architecture: 'x64'
-      - run: pip install black
-      - run: black --check ./
-      - name: If needed, commit black changes to a new pull request
-        if: failure()
-        run: |
-          black ./
-          git config --global user.name autoblack_push
-          git commit -am "fixup! Format Python code with psf/black push"
-          git push
+      - uses: psf/black@stable
