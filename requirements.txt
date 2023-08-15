@@ -1,0 +1,26 @@
+python-jose[cryptography]
+python-multipart
+lightgbm==3.3.1
+matplotlib
+numpy
+pandas
+scikit_learn
+passlib
+pydantic
+joblib
+pyarrow
+ipykernel; extra == "doc"
+ipython_genutils; extra == "doc"
+pandoc; extra == "doc"
+sphinx>=7.0.0; extra == "doc"
+sphinxawesome-theme>=4.1.0; extra == "doc"
+nbsphinx>=0.9.2; extra == "doc"
+sphinx-autodoc-typehints>=1.21.0; extra == "doc"
+sphinx-copybutton>=0.5.2; extra == "doc"
+sphinx-tabs>=3.4.1; extra == "doc"
+black; extra == "lint"
+flake8; extra == "lint"
+python-multipart>=0.0.6; extra == "test"
+pytest; extra == "test"
+pytest-cov; extra == "test"
+httpx; extra == "test"
