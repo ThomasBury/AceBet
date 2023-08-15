@@ -12,6 +12,7 @@ ACCESS_TOKEN_EXPIRE_MINUTES = 30  # Change this to set the expiration time for J
 # Initialize the password context for password hashing and verification
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
+
 # Function to create a JWT token
 def create_access_token(data: dict):
     to_encode = data.copy()
@@ -20,6 +21,7 @@ def create_access_token(data: dict):
     encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
     return encoded_jwt
 
+
 # Function to verify a JWT token
 def decode_access_token(token: str):
     try:
@@ -27,6 +29,7 @@ def decode_access_token(token: str):
         return payload
     except JWTError:
         raise HTTPException(status_code=401, detail="Invalid credentials")
+
 
 # Function to verify the password hash
 def verify_password(plain_password, hashed_password):

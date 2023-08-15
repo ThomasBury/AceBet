@@ -16,18 +16,15 @@ import os
 # Initializing unit tests with the TestClient to simulate HTTP requests.
 from acebet.api.acebet_api import app
 
-class TestAceBetAPI(unittest.TestCase):
 
+class TestAceBetAPI(unittest.TestCase):
     def setUp(self):
         # Setting up the test environment with the FastAPI TestClient instance.
         self.client = TestClient(app)
 
     def test_login_for_access_token(self):
         # Testing user authentication by sending a POST request for an access token.
-        form_data = {
-            "username": "johndoe",
-            "password": "secret"
-        }
+        form_data = {"username": "johndoe", "password": "secret"}
         # Sending the POST request.
         response = self.client.post("/token", data=form_data)
         # Asserting the expected response status (HTTP 200 - OK).
@@ -70,7 +67,7 @@ class TestAceBetAPI(unittest.TestCase):
         prediction_data = {
             "p1_name": "Fognini F.",
             "p2_name": "Jarry N.",
-            "date": "2018-03-04"
+            "date": "2018-03-04",
         }
         # Sending a POST request to predict the match outcome.
         response = self.client.post("/predict/", headers=headers, json=prediction_data)
@@ -84,14 +81,12 @@ class TestAceBetAPI(unittest.TestCase):
 
     def get_access_token(self):
         # Simulating a user login to acquire an access token.
-        form_data = {
-            "username": "johndoe",
-            "password": "secret"
-        }
+        form_data = {"username": "johndoe", "password": "secret"}
         # Sending the login POST request and extracting the access token.
         response = self.client.post("/token", data=form_data)
         data = response.json()
         return data["access_token"]
+
 
 # Executing the test suite if run as the main module.
 if __name__ == "__main__":
