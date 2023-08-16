@@ -66,6 +66,7 @@ class TestAceBetAPI(unittest.TestCase):
             "p1_name": "Fognini F.",
             "p2_name": "Jarry N.",
             "date": "2018-03-04",
+            "testing": True,
         }
         # Sending a POST request to predict the match outcome.
         response = self.client.post("/predict/", headers=headers, json=prediction_data)

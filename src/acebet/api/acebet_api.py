@@ -66,6 +66,7 @@ class PredictionRequest(BaseModel):
     p1_name: str
     p2_name: str
     date: str
+    testing: bool = False
 
 
 # And the answer is...
@@ -203,12 +204,19 @@ async def predict_match_outcome(request: PredictionRequest):
     p1_name = request.p1_name
     p2_name = request.p2_name
     date = request.date
+    testing = request.testing
 
     # The data and model paths are crucial for predictions
-    data_file = (
-        Path(__file__).resolve().parents[3] / "data" / "atp_data_production.feather"
-    )
-    model_path = Path(__file__).resolve().parents[3]
+    if testing:
+        data_file = (
+            Path(__file__).resolve().parents[1] / "data" / "atp_sample_data.feather"
+        )
+        model_path = Path(__file__).resolve().parents[1] / "data"
+    else:
+        data_file = (
+            Path(__file__).resolve().parents[3] / "data" / "atp_data_production.feather"
+        )
+        model_path = Path(__file__).resolve().parents[3]
 
     # Let's gaze into the future (predict using the make_prediction function)
     prob, class_, player_1 = make_prediction(
