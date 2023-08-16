@@ -9,6 +9,7 @@ passlib
 pydantic
 joblib
 pyarrow
+fastapi
 ipykernel; extra == "doc"
 ipython_genutils; extra == "doc"
 pandoc; extra == "doc"
