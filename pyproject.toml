@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 version = {attr = "acebet.__version__"}
 
 [tool.setuptools]
-package-data = {"*" = ["**/*.joblib"]}
+package-data = {"*" = ["**/*.joblib", "**/data/*.feather"]}
 
 [project]
 name = "acebet"
