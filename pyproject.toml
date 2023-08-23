@@ -27,6 +27,7 @@ classifiers = [
 dependencies = [
   "python-jose[cryptography]",
   "fastapi",
+  "slowapi",
   "python-multipart",
   "lightgbm==3.3.1",
   "matplotlib",
