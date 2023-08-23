@@ -9,7 +9,7 @@ from starlette.background import BackgroundTask
 from starlette.types import Message
 
 # Import the prediction function and data models
-from acebet.app.dependencies.logging_user import RouterLoggingMiddleware
+# from acebet.app.dependencies.logging_user import RouterLoggingMiddleware
 from acebet.app.dependencies.predict_winner import make_prediction
 from acebet.app.dependencies.data_models import (
     Token,
@@ -25,7 +25,6 @@ from acebet.app.dependencies.auth import (
     create_access_token,
     get_current_active_user,
     get_current_user,
-    get_user_identifier,
 )
 
 # from acebet.app.dependencies.logging_user import (
