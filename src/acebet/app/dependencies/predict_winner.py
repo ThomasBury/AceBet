@@ -170,9 +170,9 @@ def make_prediction(data_file, model_path, p1_name, p2_name, date):
 if __name__ == "__main__":
     # Specify the correct paths to the data file and model directory
     data_file = (
-        Path(__file__).resolve().parents[3] / "data" / "atp_data_production.feather"
+        Path(__file__).resolve().parents[4] / "data" / "atp_data_production.feather"
     )
-    model_path = Path(__file__).resolve().parents[3]
+    model_path = Path(__file__).resolve().parents[4]
     print(model_path)
     prob, class_, player_1 = make_prediction(
         data_file=data_file,
