@@ -16,6 +16,7 @@ Welcome to AceBet, your playful playground for peeking into the future of tennis
   - [Authentication Magic](#authentication-magic)
   - [Prediction](#prediction)
   - [AceBet-in-action](#acebet-in-action)
+  - [More on the API architecture](#more-on-the-api-architecture)
   - [From Mock-up to Production](#from-mock-up-to-production)
   - [Conclusion](#conclusion)
   - [Project structure](#project-structure)
@@ -25,18 +26,27 @@ Welcome to AceBet, your playful playground for peeking into the future of tennis
 
 ## Introduction
 
-Ever wondered if you could predict tennis match outcomes before the first serve? Enter our brainchild, AceBet! This report spills the beans on the concept, its whiz-bang features, and what lies ahead as we aim to take it from fantasy to reality.
+Have you ever wondered if it is possible to predict the outcome of a tennis match before the first serve? Our team has developed a web-based application called AceBet that does just that. This report provides an overview of the concept, features, and future plans for AceBet.
 
-AceBet is a web-based application built using the FastAPI framework. It harnesses the power of machine learning to predict tennis match outcomes, including both the probability and the class of the outcome. The system incorporates user authentication for access control and offers endpoints for user interactions.
+AceBet is built using the FastAPI framework and leverages machine learning to predict the outcome of tennis matches. The system includes user authentication for access control and provides endpoints for user interactions.
+
+The following are some of the key features of AceBet:
+* Predicts the outcome of tennis matches with high accuracy
+* Provides the probability of each outcome
+* Classifies the outcome of each match
+* Includes user authentication for access control
+* Offers endpoints for user interactions
+
+AceBet is still under development, but we believe it has the potential to revolutionize the way people bet on tennis matches. We are excited to continue working on AceBet and to bring it to the market in the near future.
 
 ## Getting Started
 
-1. Install the FastAPI library and dependencies with `pip install fastapi uvicorn[standard]`.
+1. Install the AceBet package by changing the directory where the package is located (`pyproject.toml`) and run `pip install -U.`
 2. Fire up your crystal ball by running `uvicorn main:app --reload`.
 
 ## API Endpoints
 
-Our AceBet has some exciting booths to visit:
+Our AceBet has some exciting routes to visit:
 
 - **/token**: This endpoint facilitates user authentication, issuing access tokens for secure interactions.
 - **/users/me/**: It offers users access to their individual profiles, presenting user-specific information.
@@ -45,11 +55,11 @@ Our AceBet has some exciting booths to visit:
 
 ## Authentication Magic
 
-AceBet isn't open to just anyone. To access its secrets, you need an access token. Visit the `/token` booth, share your credentials, and get your magical token for AceBet.
+AceBet isn't open to just anyone. To access its secrets, you need an access token. Visit the `/token` route, share your credentials, and get your magical token for AceBet.
 
 ## Prediction
 
-The `/predict` booth is where the real magic happens. Provide player names and a match date, and AceBet's enchanted algorithms will predict the match outcome! You'll get the player's name, the probability of their victory, and the predicted class (0 or 1).
+The `/predict` route is where the real magic happens. Provide player names and a match date, and AceBet's algorithms will predict the match outcome! You'll get the player's name, the probability of their victory, and the predicted class (0 or 1).
 
 ## AceBet-in-action
 
@@ -76,6 +86,15 @@ You'll receive predictions like:
 }
 ```
 
+## More on the API architecture
+Dependency injection is a design pattern that allows us to decouple our code from its dependencies. In FastAPI, dependencies are reusable components that can be injected into our endpoint functions. This means that we can write our endpoint functions without having to worry about how to get the data or services that they need. Instead, we can simply inject the dependencies that you need into the function.
+
+This can be a great way to improve the modularity and flexibility of our code. It can also make our code easier to test and maintain.
+
+For example, we injected a rate limiter into our endpoint functions. This allows us to limit the number of requests that can be made to the function per unit of time. This can help to prevent our API from being overloaded.
+
+We could also inject a function that checks for duplicates into our endpoint functions. This would allow us to prevent users from submitting duplicate data.
+
 ## From Mock-up to Production
 
 While AceBet is currently a mock-up, it's just the tip of the iceberg. The journey from mock-up to production involves:
@@ -86,6 +105,7 @@ While AceBet is currently a mock-up, it's just the tip of the iceberg. The journ
 4. **UI/UX Transformation**: Elevate the user experience with an engaging interface and intuitive interactions.
 5. **Deployment and Monitoring**: Deploy the app on a production server, and set up monitoring to keep an eye on its health and performance.
 6. **Continuous Improvement**: Regularly update and improve the app based on user feedback and changing requirements.
+7. **Documentation**: Create comprehensive documentation for the app, including user guides, API documentation, and troubleshooting guides. This will help users to get the most out of the app. Using Sphinx for instance.
 
 ## Conclusion
 
@@ -94,36 +114,69 @@ AceBet, in its mock-up form, promises a glimpse into the world of match predicti
 ## Project structure
 
 ```
-Sports_betting/
-├── notebooks/
-│   ├── data_exploration.ipynb
-│   ├── model_training.ipynb
-│   └── ...
-├── src/
-│   ├── api/
-│   │   ├── main.py
-│   │   └── ...
-│   ├── models/
-│   │   ├── model.py
-│   │   └── ...
-│   ├── utils/
-│   │   ├── data_processing.py
-│   │   └── ...
-│   ├── tests/
-│   │   ├── test_api.py
-│   │   └── ...
-│   ├── main.py
-│   └── ...
-├── data/
-│   ├── dataset.csv
-│   └── ...
-├── docker/
-│   ├── Dockerfile
-│   ├── docker-compose.yml
-│   └── ...
-├── requirements.txt
+├── data
+│   ├── atp_data.csv
+│   ├── atp_data.csv.zip
+│   └── atp_data_production.feather
+├── dist
+│   ├── acebet-0.0.1-py3-none-any.whl
+│   └── acebet-0.0.1.tar.gz
+├── docker
+├── info.log
+├── LICENSE
+├── model_2023-08-14-15-28.joblib
+├── model_2023-08-14-15-42.joblib
+├── nb
+│   ├── atp_tennis.ipynb
+│   ├── simple_logreg_final.ipynb
+│   ├── soccer_eda.ipynb
+│   └── tennis_data_processing.ipynb
+├── pyproject.toml
 ├── README.md
-└── ...
+├── requirements-doc.txt
+├── requirements-lint.txt
+├── requirements-test.txt
+├── requirements.txt
+├── sportbet.yml
+├── src
+│   ├── acebet
+│   │   ├── app
+│   │   │   ├── dependencies
+│   │   │   │   ├── auth.py
+│   │   │   │   ├── data_models.py
+│   │   │   │   ├── __init__.py
+│   │   │   │   ├── logging_user.py
+│   │   │   │   ├── predict_winner.py
+│   │   │   ├── info.log
+│   │   │   ├── __init__.py
+│   │   │   ├── main.py
+│   │   ├── data
+│   │   │   ├── atp_sample_data.feather
+│   │   │   ├── __init__.py
+│   │   │   └── model_2023-08-14-15-42.joblib
+│   │   ├── dataprep
+│   │   │   ├── dataprep.py
+│   │   │   └── __init__.py
+│   │   ├── __init__.py
+│   │   ├── __pycache__
+│   │   │   └── __init__.cpython-310.pyc
+│   │   ├── train
+│   │   │   ├── __init__.py
+│   │   │   └── train.py
+│   │   └── utils
+│   ├── acebet.egg-info
+│   │   ├── dependency_links.txt
+│   │   ├── PKG-INFO
+│   │   ├── requires.txt
+│   │   ├── SOURCES.txt
+│   │   └── top_level.txt
+│   └── predict_winner_dag.py
+├── tennis-unsplash.jpg
+├── tests
+│   ├── __init__.py
+│   └── test_acebet.py
+└── trained_models
+
 ```
 
  * notebooks/: Jupyter notebooks for data exploration, model training, and any other exploratory or experimental analyses. For pre-production steps.
