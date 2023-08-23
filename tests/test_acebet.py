@@ -1,18 +1,8 @@
 import unittest
 from fastapi.testclient import TestClient
 
-
-# # Get the current directory of the script
-# script_dir = os.path.dirname(os.path.abspath(__file__))
-
-# # Calculate the path to the parent directory (project_root)
-# project_root = os.path.dirname(script_dir)
-
-# # Append the parent directory to the system path
-# sys.path.append(project_root)
-
 # Initializing unit tests with the TestClient to simulate HTTP requests.
-from acebet.api.acebet_api import app
+from acebet.app.main import app
 
 
 class TestAceBetAPI(unittest.TestCase):
@@ -90,3 +80,11 @@ class TestAceBetAPI(unittest.TestCase):
 # Executing the test suite if run as the main module.
 if __name__ == "__main__":
     unittest.main()
+
+
+# {
+#   "p1_name": "Fognini F.",
+#   "p2_name": "Jarry N.",
+#   "date": "2018-03-04",
+#   "testing": false
+# }
