@@ -23,6 +23,9 @@ Welcome to AceBet, your playful playground for peeking into the future of tennis
   - [Database preparation](#database-preparation)
   - [Training procedure](#training-procedure)
   - [Predict procedure](#predict-procedure)
+  - [CI/CD using github actions](#cicd-using-github-actions)
+    - [Build docker image](#build-docker-image)
+    - [Unit tests automation](#unit-tests-automation)
 
 ## Introduction
 
@@ -214,3 +217,29 @@ Loading the latest trained model, the prediction function estimates the probabil
 The model loading is executed through the `load_model` function, extracting the most recent model stored within a specified directory. Subsequently, the `make_prediction` function orchestrates the entire prediction procedure, from data loading to querying and prediction.
 
 When executed independently, this segment demonstrates the prediction process for a specific match scenario. A test case is provided as a prototype, encapsulating the envisioned application's functionality. The printed result offers insights into Player 1's winning probability, a key facet of AceBet's capabilities. As the project advances towards production, further optimizations and scalability considerations are anticipated to enhance the prediction engine's accuracy and reliability.
+
+## CI/CD using github actions
+
+### Build docker image
+
+The GitHub Actions workflow named "docker" is designed to automate the build and deployment process of a Docker container for the main application. It is triggered whenever changes are pushed to the "main" branch of the repository. This workflow runs on the latest version of Ubuntu and consists of several steps:
+
+1. **Checkout**: This step checks out the latest code from the repository using the `actions/checkout` action.
+2. **Login to Docker Hub**: Here, the workflow logs in to Docker Hub using the provided Docker Hub username and token stored in GitHub secrets. This authentication is necessary for pushing the Docker image to Docker Hub.
+3. **Set up Docker Buildx**: This step sets up Docker Buildx, an extension for Docker that provides advanced build capabilities. It ensures that the workflow is ready for building Docker images efficiently.
+4. **Build and push**: In this final step, the workflow builds a Docker image based on the specified Dockerfile in the repository's root directory. It then pushes the built image to Docker Hub with the specified tag. The tag often includes the Docker Hub username and a version identifier, in this case, "latest."
+
+### Unit tests automation
+
+This GitHub Actions workflow is designed for running unit tests using Pytest in a Python project. Here's a brief explanation of each section:
+
+1. **Workflow Name and Trigger**: This workflow is named "Run Unit Test via Pytest," and it's triggered on every push event to the repository.
+2. **Jobs**: The workflow consists of a single job named "build," which runs on the latest version of the Ubuntu operating system.
+3. **Python Version Matrix**: The `strategy` section defines a matrix of Python versions to test against. In this case, it specifies Python 3.10 as the target version.
+4. **Steps**:
+   - **Checkout**: This step checks out the source code from the repository using the `actions/checkout` action.
+   - **Set up Python**: It sets up the specified Python version from the matrix using the `actions/setup-python` action.
+   - **Install Dependencies**: This step upgrades `pip` and installs project dependencies from `requirements.txt` if the file exists.
+   - **Lint with Ruff**: It installs the `ruff` linter tool and runs it on the codebase, formatting it in GitHub style. It continues execution even if there are linting errors (specified by `continue-on-error: true`).
+   - **Test with Pytest**: This step upgrades `pip`, installs test dependencies, and then runs Pytest with verbose and silent modes (`-v -s`). This command is used for running unit tests.
+   - **Generate Coverage Report**: Finally, this step generates a test coverage report using the `coverage` tool.
