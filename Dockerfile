@@ -4,15 +4,16 @@ FROM python:3.10
 # Set the working directory in the container
 WORKDIR /app
 
-# Copy the application code into the container
-COPY . acebet
+# Copy the current directory contents into the container
+COPY . .
 
 # Install the application package
-RUN pip install --upgrade pip
-RUN pip install -U ./acebet
+RUN pip install --upgrade pip \
+    && pip install .\
+    && pip install fastapi uvicorn -U
 
-# Expose the port that the FastAPI app will run on
-EXPOSE 80
+# Set PYTHONPATH so Python can find the module
+ENV PYTHONPATH=/app/src
 
 # Run the FastAPI app using the full path to the module
-CMD ["uvicorn", "acebet.app.main:app", "--host", "0.0.0.0", "--port", "80"]
+CMD ["uvicorn", "src.acebet.app.main:app", "--host", "0.0.0.0", "--port", "80"]
