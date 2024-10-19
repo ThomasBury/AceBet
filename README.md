@@ -229,6 +229,18 @@ The GitHub Actions workflow named "docker" is designed to automate the build and
 3. **Set up Docker Buildx**: This step sets up Docker Buildx, an extension for Docker that provides advanced build capabilities. It ensures that the workflow is ready for building Docker images efficiently.
 4. **Build and push**: In this final step, the workflow builds a Docker image based on the specified Dockerfile in the repository's root directory. It then pushes the built image to Docker Hub with the specified tag. The tag often includes the Docker Hub username and a version identifier, in this case, "latest."
 
+TO build manually:
+
+```bash
+docker build -t acebet .
+```
+
+To run in the background and expose outside the container:
+
+```bash
+docker run -d -p 8000:80 acebet
+```
+
 ### Unit tests automation
 
 This GitHub Actions workflow is designed for running unit tests using Pytest in a Python project. Here's a brief explanation of each section:
