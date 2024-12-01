@@ -1,19 +1,17 @@
-# Use the official Python base image
-FROM python:3.10
+FROM python:3.12-slim
 
-# Set the working directory in the container
+# Install uv.
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
+
+# Copy the application into the container.
+COPY . /app
+
+# Install the application dependencies.
 WORKDIR /app
+RUN uv sync --frozen --no-cache
 
-# Copy the current directory contents into the container
-COPY . .
+# Run the application.
+CMD ["/app/.venv/bin/fastapi", "run", "src/acebet/app/main.py", "--port", "80", "--host", "0.0.0.0"]
 
-# Install the application package
-RUN pip install --upgrade pip \
-    && pip install .\
-    && pip install fastapi uvicorn -U
 
-# Set PYTHONPATH so Python can find the module
-ENV PYTHONPATH=/app/src
 
-# Run the FastAPI app using the full path to the module
-CMD ["uvicorn", "src.acebet.app.main:app", "--host", "0.0.0.0", "--port", "80"]
