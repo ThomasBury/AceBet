@@ -67,8 +67,14 @@ class RouterLoggingMiddleware(BaseHTTPMiddleware):
         try:
             body = await request.json()
             request_logging["body"] = body
-        except:
+        except ValueError as e:
+            # Handle case where the request body is not valid JSON
             body = None
+            request_logging["error"] = f"Invalid JSON: {str(e)}"
+        except Exception as e:
+            # Catch other unexpected exceptions
+            body = None
+            request_logging["error"] = f"Unexpected error: {str(e)}"
 
         return request_logging
 
@@ -104,7 +110,13 @@ class RouterLoggingMiddleware(BaseHTTPMiddleware):
 
         try:
             resp_body = json.loads(resp_body[0].decode())
-        except:
+        except (ValueError, IndexError, AttributeError) as e:
+            # Handle specific exceptions for decoding and accessing `resp_body`
+            response_logging["error"] = f"Error processing response body: {str(e)}"
+            resp_body = str(resp_body)
+        except Exception as e:
+            # Catch any unexpected exceptions
+            response_logging["error"] = f"Unexpected error: {str(e)}"
             resp_body = str(resp_body)
 
         response_logging["body"] = resp_body
