@@ -2,6 +2,7 @@
 Authorization and authentication module.
 Heavily inspired from https://fastapi.tiangolo.com/tutorial/security/oauth2-jwt/
 """
+
 # Let's import all the magical stuff we need!
 from datetime import datetime, timedelta  # For handling time
 from typing import Annotated, Dict, Union  # For fancy type hints
