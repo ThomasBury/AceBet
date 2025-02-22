@@ -280,7 +280,7 @@ async def predict_match_outcome(
 
     if testing:
         data_file = (
-            Path(__file__).resolve().parents[1] / "data" / "atp_sample_data.feather"
+            Path(__file__).resolve().parents[1] / "data" / "atp_data_sample.feather"
         )
         model_path = Path(__file__).resolve().parents[1] / "data"
     else:
