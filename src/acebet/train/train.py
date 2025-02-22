@@ -26,6 +26,7 @@ def prepare_data_for_training_clf(start_date, end_date):
         The prepared data.
 
     """
+    # replace by your production DB connection and table
     data_path = (
         Path(__file__).resolve().parents[3] / "data" / "atp_data_production.feather"
     )

@@ -154,7 +154,7 @@ AceBet, in its mock-up form, promises a glimpse into the world of match predicti
 │   │   │   ├── __init__.py
 │   │   │   ├── main.py
 │   │   ├── data
-│   │   │   ├── atp_sample_data.feather
+│   │   │   ├── atp_data_sample.feather
 │   │   │   ├── __init__.py
 │   │   │   └── model_2023-08-14-15-42.joblib
 │   │   ├── dataprep
