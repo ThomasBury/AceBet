@@ -1,4 +1,6 @@
 import logging
+import numpy as np
+
 from datetime import timedelta
 from pathlib import Path
 from slowapi import _rate_limit_exceeded_handler
@@ -296,6 +298,11 @@ async def predict_match_outcome(
         p2_name=p2_name,
         date=date,
     )
-    prob = round((100 * prob[0]), 1)
+    # Ensure prob is a scalar value
+    if isinstance(prob, (list, np.ndarray)):
+        prob = np.asarray(prob).ravel()[0]
+    # Ensure prob is a scalar value
+    prob = float(prob)
+    prob = round((100 * prob), 1)  # Convert to percentage and round
 
     return PredictionResponse(player_name=player_1, prob=prob, class_=class_)
