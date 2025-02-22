@@ -36,36 +36,64 @@ def load_data(data_file):
 
 def query_data(df, p1_name, p2_name, date):
     """
-    Query the data by player name and date.
+    Query the data by player names and date.
+
+    This function filters the DataFrame to find rows where the specified players
+    (in any order) played on the given date. The date column and the input date
+    are explicitly cast to datetime64[ns] to avoid future warnings.
 
     Parameters
     ----------
     df : pd.DataFrame
-        The data to query.
+        The DataFrame containing the match data. It must include columns 'p1', 'p2', and 'date'.
     p1_name : str
-        The name of player 1.
+        The name of the first player.
     p2_name : str
-        The name of player 2.
+        The name of the second player.
     date : str
         The date of the match in 'YYYY-MM-DD' format.
 
     Returns
     -------
-    df : pandas.DataFrame
-        The data for the specified players and date.
+    pd.DataFrame
+        A DataFrame containing the rows where the specified players played on the given date.
 
+    Raises
+    ------
+    KeyError
+        If the required columns ('p1', 'p2', 'date') are not present in the DataFrame.
+    ValueError
+        If an error occurs during the querying process.
+
+    Examples
+    --------
+    >>> df = pd.DataFrame({
+    ...     'p1': ['Alice', 'Bob', 'Charlie'],
+    ...     'p2': ['Bob', 'Alice', 'David'],
+    ...     'date': ['2023-10-01', '2023-10-01', '2023-10-02']
+    ... })
+    >>> query_data(df, 'Alice', 'Bob', '2023-10-01')
+       p1     p2       date
+    0  Alice  Bob 2023-10-01
+    1  Bob    Alice 2023-10-01
     """
 
     try:
+        # Ensure the 'date' column is in datetime format
+        df["date"] = pd.to_datetime(df["date"])
+
+        # Convert the input date to datetime64[ns]
+        date = pd.to_datetime(date)
+
         # Query the DataFrame based on player names and date, handling both player order possibilities.
         query = (
-            f'(p1 == "{p1_name}" and p2 == "{p2_name}" and date == "{date}")'
-            f' or (p1 == "{p2_name}" and p2 == "{p1_name}" and date == "{date}")'
+            f'(p1 == "{p1_name}" and p2 == "{p2_name}" and date == @date)'
+            f' or (p1 == "{p2_name}" and p2 == "{p1_name}" and date == @date)'
         )
         return df.query(query)
-    except KeyError:
+    except KeyError as e:
         # Raise an error if the required columns are not present in the DataFrame.
-        raise KeyError("Invalid column names in the data.")
+        raise KeyError(f"Invalid column names in the data: {e}")
     except Exception as e:
         # Raise an error for any other query-related exceptions.
         raise ValueError(f"Error occurred while querying data: {e}")
